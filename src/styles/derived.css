@@ -1,0 +1,343 @@
+/*
+  DERIVED COMPONENT CSS
+  ---------------------
+  Rules for components whose DESIGN_SYSTEM.md section gives a spec table but no CSS blueprint.
+  Every value is a --ds-* token or a literal stated in the cited spec table. Each block names its source.
+  (Components with blueprint CSS use src/generated/ds.css, copied verbatim from the spec.)
+*/
+
+/* §5.12 — the spec says the native checkbox is "visually hidden behind the styled box" but gives no rule */
+.ds-check { position: relative; }
+.ds-check input { position: absolute; inset-inline-start: 0; top: 50%; width: var(--ds-size-checkbox); height: var(--ds-size-checkbox);
+  margin: 0; transform: translateY(-50%); opacity: 0; cursor: inherit; }
+.ds-check__box svg { display: none; }
+.ds-check input:checked + .ds-check__box svg, .ds-check input:indeterminate + .ds-check__box svg { display: block; }
+.ds-check input:indeterminate + .ds-check__box { background: var(--ds-color-brand-strong); border-color: var(--ds-color-brand); }
+.ds-check input:disabled + .ds-check__box, .ds-check:has(input:disabled) { opacity: 0.4; cursor: not-allowed; }
+.ds-check.is-focus-visible .ds-check__box { outline: var(--ds-focus-width) solid var(--ds-color-focus-ring); outline-offset: var(--ds-focus-offset); }
+
+/* §5.10 / §5.11 — multi-select option = 16px checkbox + label, 12px gap, text-secondary */
+.ds-menu__option--multi { gap: var(--ds-space-3); color: var(--ds-color-text-secondary); }
+.ds-menu__option--multi .ds-check__box { pointer-events: none; }
+.ds-menu__option[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+.ds-menu--wide { width: max-content; min-width: 100%; max-width: min(420px, 90vw); }
+.ds-menu--up { top: auto; bottom: 100%; margin-top: 0; margin-bottom: var(--ds-space-1); }
+
+/* §5.27 — info and neutral badge tones [EXT] */
+.ds-badge--info { background: var(--ds-color-info-bg); border-color: var(--ds-color-info-border); color: var(--ds-color-info-text); }
+.ds-badge--info .ds-badge__dot { background: var(--ds-color-brand); }
+.ds-badge--neutral { background: var(--ds-color-surface-pill); border-color: var(--ds-color-border-subtle); color: var(--ds-color-text-secondary); }
+.ds-badge--neutral .ds-badge__dot { background: var(--ds-color-text-muted); }
+
+/* §5.29 — raised tag variant */
+.ds-tag--raised { box-shadow: var(--ds-shadow-card); }
+
+/* §5.31 — info chip (blueprint exists as .ds-chip); §5.32 photo avatar 32px with 1px gradient ring */
+.ds-avatar--photo { width: var(--ds-size-avatar-sm); height: var(--ds-size-avatar-sm); padding: 1px; background: var(--ds-gradient-brand-ring); border: 0; }
+.ds-avatar--photo > span { width: 100%; height: 100%; border-radius: var(--ds-radius-full); background: var(--ds-color-avatar-inner);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 12px; line-height: 16px; }
+.ds-avatar--photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* §2.11-D — icon tile status variants and 32px size */
+.ds-icon-tile--32 { width: 32px; height: 32px; border-radius: var(--ds-radius-sm); }
+.ds-icon-tile--success { background: var(--ds-color-success-bg); border-color: var(--ds-color-success-border); color: var(--ds-color-success-text); }
+.ds-icon-tile--warning { background: var(--ds-color-warning-bg); border-color: var(--ds-color-warning-border); color: var(--ds-color-warning-text); }
+.ds-icon-tile--error { background: var(--ds-color-error-bg); border-color: var(--ds-color-error-border); color: var(--ds-color-error-text); }
+
+/* §5.23 — KPI status ball (14px, bottom-right of the 40px icon) */
+.ds-kpi__ball { position: absolute; inset-inline-end: 0; bottom: 0; width: 14px; height: 14px; border-radius: var(--ds-radius-full);
+  box-shadow: 0 0 0 2px var(--ds-color-surface-card), 0 2px 4px rgba(0,0,0,0.5), 0 0 6px rgba(16,185,129,0.5);
+  background: radial-gradient(circle at 35% 30%, #a7f3d0 0%, #10b981 45%, #047857 100%); }
+.ds-kpi__ball--error { background: radial-gradient(circle at 35% 30%, #fecaca 0%, #ef4444 45%, #991b1b 100%);
+  box-shadow: 0 0 0 2px var(--ds-color-surface-card), 0 2px 4px rgba(0,0,0,0.5), 0 0 6px rgba(239,68,68,0.5); }
+.ds-kpi__icon { overflow: visible; }
+.ds-kpi__icon > img, .ds-kpi__icon > .ds-icon-tile { overflow: hidden; }
+.ds-kpi__delta { font-size: 12px; line-height: 16px; }
+.ds-kpi__delta--up { color: var(--ds-color-success-text); } .ds-kpi__delta--down { color: var(--ds-color-error-text); }
+
+/* §5.24 — entity card header, person row, metric values */
+.ds-entity__header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--ds-space-3); }
+.ds-entity__lead { display: flex; gap: var(--ds-space-icon-text-lg); min-width: 0; }
+.ds-entity__titles { display: flex; flex-direction: column; gap: var(--ds-space-0-5); min-width: 0; }
+.ds-entity__person { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--ds-space-3); }
+.ds-entity__who { display: flex; align-items: center; gap: var(--ds-space-2-5); min-width: 0; }
+.ds-entity__who b { display: block; font-size: 14px; line-height: 22px; font-weight: 500; color: var(--ds-color-text-secondary); }
+.ds-entity__when { display: flex; flex-direction: column; gap: var(--ds-space-0-5); text-align: end; font-size: 12px; line-height: 16px; color: var(--ds-color-text-secondary); }
+.ds-entity__when span { color: var(--ds-color-text-tertiary); }
+.ds-entity__value { display: flex; align-items: baseline; gap: var(--ds-space-0-5); }
+a.ds-entity, button.ds-entity { color: inherit; text-align: start; text-decoration: none; }
+
+/* §5.26 — status card: flush dashboard card with a 16px gap */
+.ds-status-card { gap: var(--ds-space-4); }
+.ds-status-card__bar { padding: 0 var(--ds-space-card-xl); }
+.ds-legend-dots { display: flex; flex-wrap: wrap; gap: var(--ds-space-5); }
+.ds-legend-dot { display: inline-flex; align-items: center; gap: var(--ds-space-2); font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ds-color-text-muted); }
+.ds-legend-dot i { width: 12px; height: 12px; border-radius: var(--ds-radius-full); }
+
+/* §5.34 — progress bar label */
+.ds-progress-row { display: flex; align-items: center; gap: var(--ds-space-2); }
+.ds-progress-row .ds-progress { flex: 1; }
+.ds-progress-row b { font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ds-color-text-secondary); font-variant-numeric: tabular-nums; }
+
+/* §5.42 — table card */
+.ds-table-card { display: flex; flex-direction: column; flex-shrink: 0; border-radius: var(--ds-radius-card); overflow: hidden;
+  background: var(--ds-color-surface-card); box-shadow: var(--ds-shadow-card); }
+.ds-table-card__title { display: flex; align-items: center; gap: var(--ds-space-3-5); min-width: 0; }
+.ds-bulkbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ds-space-3); padding: var(--ds-space-3) var(--ds-space-4);
+  border-bottom: 1px solid var(--ds-color-border-faint); background: var(--ds-color-brand-tint-10); }
+.ds-bulkbar__actions { display: flex; gap: var(--ds-space-2); }
+.ds-row-actions--menu { position: relative; }
+
+/* §5.38 — breadcrumb [EXT] and page header description */
+.ds-breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-1-5); font-size: 12px; line-height: 16px; }
+.ds-breadcrumb a { color: var(--ds-color-text-muted); text-decoration: none; border-radius: var(--ds-radius-xs); transition: color var(--ds-duration-fast); }
+.ds-breadcrumb a:hover, .ds-breadcrumb a.is-hover { color: var(--ds-color-text-primary); }
+.ds-breadcrumb li[aria-hidden] { color: var(--ds-color-text-faint); }
+.ds-page-header__titles { display: flex; flex-direction: column; gap: var(--ds-space-0-5); min-width: 0; padding: var(--ds-space-3) 0; }
+.ds-page-header__titles h1 { overflow-wrap: anywhere; }
+
+/* §5.44 — generic modal [EXT] */
+.ds-modal { position: relative; width: min(560px, calc(100% - 32px)); max-height: calc(100% - 48px); display: flex; flex-direction: column;
+  border-radius: var(--ds-radius-card); border: 1px solid var(--ds-color-border-subtle); background: var(--ds-color-surface-card); box-shadow: var(--ds-shadow-dialog); overflow: hidden; }
+.ds-modal--lg { width: min(720px, calc(100% - 32px)); }
+.ds-modal__header { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-3); padding: var(--ds-space-5) var(--ds-space-6); border-bottom: 1px solid var(--ds-color-border-subtle); }
+.ds-modal__body { padding: var(--ds-space-6); overflow-y: auto; }
+.ds-modal__footer { display: flex; justify-content: flex-end; gap: var(--ds-space-3); padding: var(--ds-space-5) var(--ds-space-6); border-top: 1px solid var(--ds-color-border-strong); }
+.ds-overlay__frame { position: relative; display: contents; }
+@media (max-width: 1023px) { .ds-overlay { position: fixed; } }
+
+/* §5.36 — media viewer modal */
+.ds-viewer { position: relative; width: min(90vw, 900px); max-height: 90vh; max-width: calc(100% - 32px); display: flex; flex-direction: column; border-radius: var(--ds-radius-card); overflow: hidden;
+  background: var(--ds-color-surface-overlay); box-shadow: var(--ds-shadow-modal); }
+.ds-viewer__header { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-4); padding: var(--ds-space-5) var(--ds-space-8);
+  background: var(--ds-color-surface-card); border-bottom: 2px solid var(--ds-color-border-subtle); }
+.ds-viewer__context { padding: var(--ds-space-3) var(--ds-space-8); border-bottom: 1px solid var(--ds-color-border-subtle); }
+.ds-viewer__media { position: relative; flex: 1; min-height: 460px; background: var(--ds-color-surface-media); }
+.ds-viewer__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0.5; }
+.ds-detect { position: absolute; border: 2px solid var(--ds-color-detect-positive); border-radius: var(--ds-radius-xs); box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+.ds-icon-tile--48 { width: 48px; height: 48px; border-radius: var(--ds-radius-track); border-width: 2px; }
+
+/* §5.49 — label tooltip */
+.ds-tooltip { position: fixed; z-index: var(--ds-z-tooltip); max-width: 280px; padding: var(--ds-space-1-5) var(--ds-space-2-5); border-radius: var(--ds-radius-sm);
+  background: var(--ds-color-surface-tooltip); border: 1px solid var(--ds-color-border-tooltip); box-shadow: var(--ds-shadow-tooltip);
+  font-size: 12px; line-height: 16px; color: var(--ds-color-text-tooltip); pointer-events: auto; overflow-wrap: anywhere; }
+.ds-tooltip[hidden] { display: none; }
+.ds-tooltip--static { position: relative; display: inline-block; }
+
+/* §5.48 — toast region, action and close */
+.ds-toast-region { position: absolute; z-index: var(--ds-z-toast); top: var(--ds-space-6); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); pointer-events: none; }
+.ds-toast-region .ds-toast { position: static; transform: none; display: flex; align-items: center; gap: var(--ds-space-2); pointer-events: auto; }
+.ds-toast--error svg { color: var(--ds-color-error-text); flex-shrink: 0; }
+.ds-toast__action { margin-inline-start: var(--ds-space-2); }
+@media (max-width: 639px) { .ds-toast-region { top: auto; bottom: var(--ds-space-4); width: calc(100% - 32px); } }
+
+/* §5.51 — empty states */
+.ds-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--ds-space-3); padding: var(--ds-space-12) var(--ds-space-4);
+  text-align: center; font-size: 14px; line-height: 20px; color: var(--ds-color-text-muted); }
+.ds-empty--first-use { padding: var(--ds-space-16) var(--ds-space-6); }
+.ds-empty--chart { padding: var(--ds-space-16) 0; }
+
+/* §5.13 — radio glyph */
+.ds-radio-glyph { flex-shrink: 0; color: var(--ds-color-text-muted); }
+.ds-radio-card[aria-checked="true"] .ds-radio-glyph { color: var(--ds-color-brand); }
+.ds-radio-group--vertical { flex-direction: column; }
+.ds-radio-group[aria-disabled="true"] .ds-radio-card { opacity: 0.4; cursor: not-allowed; }
+
+/* §5.37 — sidebar brand header and user card */
+.ds-sidebar__brand { display: flex; align-items: center; gap: var(--ds-space-3); width: 236px; padding: var(--ds-space-1) var(--ds-space-1-5); }
+.ds-sidebar__logo { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--ds-radius-sm); border: 1px solid var(--ds-color-border-logo);
+  display: flex; align-items: center; justify-content: center; color: var(--ds-color-link); background: var(--ds-color-surface-card); }
+.ds-sidebar__name { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -0.35px; color: var(--ds-color-text-primary); }
+.ds-sidebar__tagline { font-size: 10px; line-height: 16.5px; color: var(--ds-color-text-muted); }
+.ds-sidebar__scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.ds-user-card { position: relative; margin-top: var(--ds-space-3); padding: var(--ds-space-2-5); border-radius: var(--ds-radius-card); border: 1px solid var(--ds-color-border-strong);
+  background: var(--ds-gradient-user-card); overflow: hidden; }
+.ds-user-card::before { content: ""; position: absolute; width: 128px; height: 128px; left: 50%; top: -48px; transform: translateX(-50%); border-radius: 50%;
+  background: var(--ds-color-brand-tint-20); filter: blur(20px); pointer-events: none; }
+.ds-user-card__row { position: relative; display: flex; align-items: center; gap: var(--ds-space-2); width: 214px; }
+.ds-user-card__name { font-size: 14px; line-height: 18px; font-weight: 600; letter-spacing: -0.35px; color: var(--ds-color-text-primary); }
+.ds-user-card__role { font-size: 12px; line-height: 16px; color: var(--ds-color-text-muted); }
+.ds-nav__item.is-current-cue, .ds-nav__item[aria-current="page"] .ds-nav__text { font-weight: 600; }
+.ds-nav__icon img { width: 100%; height: 100%; object-fit: contain; }
+
+/* §8.2 — mobile top bar */
+.ds-topbar { display: none; }
+@media (max-width: 1023px) {
+  .ds-topbar { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-3); min-height: 56px; padding: 0 var(--ds-space-4);
+    background: var(--ds-color-bg-shell); box-shadow: var(--ds-shadow-shell); }
+}
+
+/* §5.16 — date trigger icon */
+.ds-select__icon { flex-shrink: 0; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: var(--ds-color-icon-chevron); }
+
+/* §5.19 — rich picker rows */
+.ds-picker-row { display: flex; align-items: center; gap: var(--ds-space-3-5); padding: var(--ds-space-3-5) var(--ds-space-3-5) var(--ds-space-3-5) var(--ds-space-4);
+  border-bottom: 1px solid var(--ds-color-border-input); cursor: pointer; text-align: start; }
+.ds-picker-row:hover, .ds-picker-row.is-active { background: var(--ds-color-surface-hover); }
+.ds-picker-row[aria-selected="true"] { background: var(--ds-color-surface-pill); }
+.ds-picker-row__text { display: flex; flex-direction: column; gap: 1.5px; min-width: 0; }
+.ds-picker-row__line1 { display: flex; align-items: center; gap: var(--ds-space-2); flex-wrap: wrap; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ds-color-text-primary); }
+.ds-picker-row__line2 { display: flex; align-items: center; gap: var(--ds-space-1); font-size: 12px; line-height: 16px; color: var(--ds-color-text-muted); min-width: 0; }
+.ds-picker-footer { display: flex; align-items: center; gap: var(--ds-space-2); width: 100%; padding: var(--ds-space-2-5); background: var(--ds-color-surface-elevated);
+  font-size: 14px; line-height: 20px; color: var(--ds-color-link); }
+.ds-picker-footer:hover { background: var(--ds-color-surface-elevated-hover); }
+.ds-select__trigger--rich { padding-block: var(--ds-space-3); }
+
+/* §5.43 — compact / nested section */
+.ds-section-card__body { padding: var(--ds-space-4); display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.ds-section-stack { display: flex; flex-direction: column; gap: var(--ds-space-stack); }
+
+/* §5.21 — dismiss button inside an alert */
+.ds-callout__dismiss { margin-inline-start: auto; }
+.ds-callout__content { display: flex; flex-direction: column; gap: var(--ds-space-1); min-width: 0; flex: 1; }
+
+/* §5.17 — selected files list (product choice) */
+.ds-file-list { display: flex; flex-direction: column; gap: var(--ds-space-2); margin-top: var(--ds-space-2); }
+.ds-file-list li { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-3); padding: var(--ds-space-2) var(--ds-space-3);
+  border-radius: var(--ds-radius-sm); background: var(--ds-color-surface-sunken); font-size: 12px; line-height: 16px; color: var(--ds-color-text-secondary); overflow-wrap: anywhere; }
+
+/* §5.11 — checked state of the in-menu checkbox (same as §5.12 checked) */
+.ds-menu__option[aria-selected="true"] .ds-check__box { background: var(--ds-color-brand-strong); border-color: var(--ds-color-brand); }
+
+/* §5.1 — optional header/footer minimum width */
+.ds-btn--minw { min-width: var(--ds-size-header-button); }
+
+/* §5.6 — header search widths (defaults, shrink with min(); R-57) and the clear button */
+/* width + max-width rather than min(): a percentage inside min() is cyclic in flex intrinsic sizing and under-measures the header */
+.ds-search--sm { width: var(--ds-size-search-sm); max-width: 100%; }
+.ds-search--md { width: var(--ds-size-search-md); max-width: 100%; }
+.ds-search--lg { width: var(--ds-size-search-lg); max-width: 100%; }
+.ds-search:has(.ds-search__clear) .ds-search__input { padding-inline-end: 44px; }
+.ds-search__clear { inset-inline-end: 12px; }
+
+/* §5.9 — filter widths are defaults, not limits */
+.ds-select { min-width: 0; }
+.ds-select--160 { min-width: 160px; } .ds-select--180 { min-width: var(--ds-size-filter); } .ds-select--200 { min-width: 200px; } .ds-select--220 { min-width: 220px; }
+.ds-select--240 { min-width: var(--ds-size-filter-date); }
+
+/* §5.14 / §5.15 — disabled toggle, switch row (label on the right, 12px gap) */
+.ds-toggle[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+.ds-switch-row { display: inline-flex; align-items: center; gap: var(--ds-space-3); cursor: pointer; }
+.ds-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* §5.36 viewer collapse button: 36px, radius 12px */
+.ds-icon-btn--viewer { width: var(--ds-size-icon-button); height: var(--ds-size-icon-button); border-radius: var(--ds-radius-track); }
+/* §5.47 popover alignment and generic width (280–360) */
+.ds-popover--start { right: auto; inset-inline-start: 0; }
+.ds-popover--sm { width: min(280px, calc(100vw - 32px)); }
+
+/* §5.33 — semantic value colors */
+.ds-c-success { color: var(--ds-color-success-text) !important; }
+.ds-c-warning { color: var(--ds-color-warning-text) !important; }
+.ds-c-alert { color: var(--ds-color-alert-count) !important; }
+.ds-c-error { color: var(--ds-color-error-text) !important; }
+
+/* §5.34 — progress fill tones */
+.ds-progress--success > span { background: var(--ds-color-success-text); }
+.ds-progress--warning > span { background: var(--ds-color-warning-text); }
+.ds-progress--error > span { background: var(--ds-color-error); }
+
+/* §5.22 — completed step [EXT]: white check on success-glow */
+.ds-step--done .ds-step__index { background: var(--ds-color-success-glow); border-color: var(--ds-color-success-glow); color: var(--ds-color-text-on-brand); }
+
+/* §5.50 — skeleton bar */
+.ds-skeleton--bar { display: inline-block; vertical-align: middle; }
+
+/* §2.11-B — illustrations and sprite frames */
+.ds-illus { display: block; object-fit: contain; flex-shrink: 0; }
+.ds-sprite { position: relative; display: block; overflow: hidden; flex-shrink: 0; }
+.ds-sprite img { position: absolute; top: 0; height: 100%; max-width: none; object-fit: contain; }
+
+/* small layout helpers built from tokens */
+.ds-cluster { display: flex; align-items: center; flex-wrap: wrap; gap: var(--ds-space-3); }
+.ds-muted { color: var(--ds-color-text-muted); }
+
+/* §5.24 — role under the owner name: caption in link */
+.ds-link-text { display: block; color: var(--ds-color-link); margin-top: var(--ds-space-0-5); }
+/* §5.36 — media card header expand icon and footer detail ("Label: *value*") */
+.ds-media-card__head > span:nth-child(2) { flex: 1; }
+.ds-media-card__expand { padding: var(--ds-space-1); color: var(--ds-color-icon); flex-shrink: 0; }
+.ds-media-card__detail { min-width: 0; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ds-color-text-secondary); }
+.ds-media-card__detail em { font-style: italic; font-weight: 400; }
+.ds-media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--ds-space-grid-lg); }
+.ds-media-grid .ds-media-card { min-height: 280px; }
+.ds-entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--ds-space-grid); }
+@media (max-width: 639px) { .ds-entity-grid, .ds-media-grid { grid-template-columns: 1fr; } }
+
+/* §5.37 — persistently expanded variant (§6.1) and user card layout */
+.ds-sidebar--expanded { width: var(--ds-size-sidebar-expanded); }
+.ds-sidebar--expanded .ds-sidebar__fade { opacity: 1; }
+.ds-sidebar-slot:has(.ds-sidebar--expanded) { width: var(--ds-size-sidebar-expanded); }
+.ds-user-card__who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ds-user-card__out { opacity: 0.6; flex-shrink: 0; }
+.ds-user-card__out:hover { opacity: 1; }
+.ds-nav__item { color: var(--ds-color-text-muted); text-decoration: none; }
+
+/* §5.40 — ellipsis cell is non-interactive; compact text replaces numbers at xs (§8.5) */
+.ds-page-btn--ellipsis { cursor: default; border-color: transparent; background: transparent; }
+.ds-pagination__compact { display: none; font-size: 12px; line-height: 16px; color: var(--ds-color-text-muted); padding: 0 var(--ds-space-2); }
+@media (max-width: 639px) {
+  .ds-pagination { flex-wrap: wrap; gap: var(--ds-space-2); }
+  .ds-page-btn--num, .ds-page-btn--ellipsis { display: none; }
+  .ds-pagination__compact { display: inline; }
+}
+.ds-tabpanel:focus-visible { outline-offset: var(--ds-focus-offset); }
+
+/* §5.41 — checkbox column (48px, centered) */
+.ds-table .ds-col-check { width: 48px; text-align: center; padding-inline: var(--ds-space-4); }
+.ds-table .ds-col-check .ds-check { vertical-align: middle; }
+/* §5.43 — heading element wraps the toggle button */
+.ds-section-card__h { flex: 1; min-width: 0; display: flex; }
+.ds-section-card--nested .ds-section-card__toggle svg { margin-inline-start: 0; }
+.ds-section-card__chev { display: inline-flex; flex-shrink: 0; }
+
+/* §5.16 — native date inputs inside the popover: §5.5 with 12px horizontal padding */
+.ds-input--date { padding: 0 var(--ds-space-3); color-scheme: dark; }
+/* §5.17 — upload icon at 60% opacity */
+.ds-dropzone__icon { display: flex; opacity: 0.6; color: var(--ds-color-text-muted); }
+/* §5.18 — thumbnail, clear button, error border */
+.ds-attach__field--error { box-shadow: var(--ds-error-ring), var(--ds-shadow-sunken); }
+.ds-attach__thumb { position: relative; flex-shrink: 0; width: 20px; height: 20px; padding: 3px; }
+.ds-attach__thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--ds-radius-xs); opacity: 0.6; }
+.ds-attach__clear { position: absolute; top: -6px; inset-inline-end: -6px; width: 14px; height: 14px; border-radius: var(--ds-radius-full);
+  display: flex; align-items: center; justify-content: center; background: var(--ds-color-surface-card); border: 1px solid var(--ds-color-border-subtle); color: var(--ds-color-text-muted); }
+.ds-attach__btn:hover { opacity: 0.8; }
+/* §5.19 — rich rows inside options and trigger */
+.ds-rich-row { display: flex; align-items: center; gap: var(--ds-space-3-5); min-width: 0; text-align: start; }
+.ds-select--rich .ds-select__trigger { padding-block: var(--ds-space-3); }
+.ds-select--rich .ds-menu__option { padding-block: var(--ds-space-3-5); border-bottom: 1px solid var(--ds-color-border-input); }
+.ds-select--rich .ds-menu__list { max-height: var(--ds-size-picker-max-height); }
+
+/* §5.18 / §5.6 — trailing icon buttons: the spec's 18px box is below the 24×24 target minimum (SC 2.5.8, §9.7).
+   The hit area is 24px; the glyph stays 18px and its visual position is unchanged (finding F-12). */
+.ds-input__trailing { width: 24px; height: 24px; inset-inline-end: 9px; }
+
+/* §5.24 — inactive entity card. The spec dims the whole card to opacity 0.75, which takes its muted text, badge and
+   link caption below 4.5:1 (axe color-contrast). Accessibility overrides (§10.2), so only decorative parts are dimmed
+   and the "Inactive" badge carries the state (finding F-15). */
+.ds-entity--inactive { opacity: 1; }
+.ds-entity--inactive .ds-entity__lead > span:first-child, .ds-entity--inactive .ds-avatar { opacity: 0.75; }
+
+/* §5.42 — table cards shrink inside flex rows; their region scrolls instead */
+.ds-table-card, .ds-dash-card { min-width: 0; }
+
+/* §5.22 / §5.52 — at xs show only the indices plus the current step's title ("Step 1 of 3 · Basics") */
+@media (max-width: 639px) {
+  .ds-step:not([aria-current]) .ds-step__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .ds-step:not([aria-current]) { flex: 0 0 auto; }
+}
+
+/* §5.39 — tab tracks keep their size in a wrapping header cluster (they wrap to the next line instead of squeezing labels) */
+.ds-cluster > .ds-tabs, .ds-page-header__actions > .ds-tabs { flex-shrink: 0; }
+
+/* §8.4 — form grid: 2 columns at md and up, 1 column at sm / xs (the §5.46 blueprint grid has no responsive rule) */
+@media (max-width: 1023px) {
+  .ds-form-grid { grid-template-columns: minmax(0, 1fr); }
+  .ds-form-grid > .ds-span-2 { grid-column: auto; }
+}
+
+/* §5.39 accent tabs: "track width = tab count × the widest label's tab". flex: 1 1 0 measures from min-content and
+   squeezes labels onto two lines; an equal-column grid sizes every tab to the widest label, as specified. */
+.ds-tabs--accent { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; max-width: 100%; }
+
+.ds-contents { display: contents; }

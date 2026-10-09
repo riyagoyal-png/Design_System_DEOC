@@ -1,0 +1,111 @@
+/* DERIVED CHART CSS — every value from §7 (tables) or §3 tokens. The rich tooltip (.ds-chart-tip) is the §7.9 blueprint in ds.css. */
+
+.ds-chart { position: relative; width: 100%; min-width: 0; }
+.ds-chart__plotrow { display: flex; gap: var(--ds-space-2-5); }
+
+/* §7.3 Y axis: 28px, right-aligned axis-y labels, 7 ticks; no gridlines */
+.ds-axis-y { position: relative; width: 28px; flex-shrink: 0; }
+.ds-axis-y span { position: absolute; inset-inline-end: 0; transform: translateY(50%); font-size: 12px; line-height: 24px; letter-spacing: -0.4px;
+  color: var(--ds-color-text-axis); font-variant-numeric: tabular-nums; }
+
+/* §7.4 plot: equal bands, 1px baseline, bars 60% of band (max 74, min 6), 2px card-colored segment gaps, 4px top corners */
+.ds-chart__plot { position: relative; flex: 1; min-width: 0; display: flex; align-items: flex-end; border-bottom: 1px solid var(--ds-chart-baseline); }
+.ds-chart__band { flex: 1; min-width: 0; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.ds-bar { display: flex; flex-direction: column; gap: 2px; width: 60%; max-width: 74px; min-width: 6px; padding: 0; border: 0; background: transparent;
+  border-radius: var(--ds-radius-xs) var(--ds-radius-xs) 0 0; overflow: hidden; cursor: pointer; transition: height var(--ds-duration-slow) var(--ds-ease-standard); }
+.ds-bar:focus-visible { outline-offset: var(--ds-focus-offset); overflow: visible; }
+.ds-bar__seg { flex-basis: 0; min-height: 1px; transition: filter var(--ds-duration-fast); }
+.ds-bar:hover .ds-bar__seg, .ds-bar.is-hover .ds-bar__seg { filter: brightness(1.1); }
+.ds-bar--single { width: 100%; max-width: none; min-width: 0; flex: 1; }
+.ds-bar-group { display: flex; align-items: flex-end; gap: var(--ds-space-1); width: 60%; max-width: 222px; height: 100%; }
+
+/* §7.3 X axis: centered, axis-x, truncated, 10px gap */
+.ds-axis-x { display: flex; margin-top: var(--ds-space-2-5); margin-inline-start: calc(28px + var(--ds-space-2-5)); }
+.ds-axis-x span { flex: 1; min-width: 0; text-align: center; font-size: 14px; line-height: 24px; letter-spacing: -0.4px; color: var(--ds-color-text-primary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-axis-x--line { position: relative; height: 24px; }
+.ds-axis-x--line span { position: absolute; transform: translateX(-50%); flex: none; }
+
+/* §7.5 trend overlay: 2px white dashed, 10px white points, data labels 14px above (16 bands or fewer) */
+.ds-trend { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.ds-trend__pt { position: absolute; width: 10px; height: 10px; margin-inline-start: -5px; margin-bottom: -5px; border-radius: var(--ds-radius-full);
+  background: var(--ds-chart-trend); pointer-events: none; }
+.ds-trend__label { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 16px; line-height: 22px;
+  letter-spacing: -0.4px; color: var(--ds-color-text-primary); text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+.ds-chart__plot--svg { display: block; }
+.ds-chart__plot--svg svg { display: block; overflow: visible; }
+.ds-line-hit { position: absolute; top: 0; bottom: 0; background: transparent; border: 0; padding: 0; cursor: crosshair; }
+.ds-line-hit:focus-visible { outline-offset: var(--ds-focus-offset-inset); }
+
+/* §7.4 horizontal bars [EXT]: 20px bars, 12px gap, 154px label column */
+.ds-hbar { display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.ds-hbar__row { display: grid; grid-template-columns: 154px minmax(0, 1fr); align-items: center; gap: var(--ds-space-3); }
+.ds-hbar__label { display: flex; flex-direction: column; min-width: 0; }
+.ds-hbar__track { display: flex; align-items: center; gap: var(--ds-space-2); min-width: 0; }
+.ds-hbar__bar { height: 20px; min-width: 6px; border: 0; padding: 0; border-radius: 0 var(--ds-radius-xs) var(--ds-radius-xs) 0; cursor: pointer;
+  transition: width var(--ds-duration-slow) var(--ds-ease-standard), filter var(--ds-duration-fast); }
+.ds-hbar__bar:hover { filter: brightness(1.1); }
+
+/* §7.10 legends */
+.ds-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-6); }
+.ds-legend li { display: inline-flex; align-items: center; gap: var(--ds-space-3); font-size: 14px; line-height: 22px; font-weight: 500; color: var(--ds-color-text-muted); }
+.ds-legend__mark { width: 24px; height: 16px; border-radius: var(--ds-radius-xs); flex-shrink: 0; }
+.ds-legend__value { margin-inline-start: var(--ds-space-3); }
+.ds-legend--dot { gap: var(--ds-space-5); }
+.ds-legend--dot li { gap: var(--ds-space-2); font-size: 12px; line-height: 16px; }
+.ds-legend--dot .ds-legend__mark { width: 12px; height: 12px; border-radius: var(--ds-radius-full); }
+.ds-legend__item { display: inline-flex; align-items: center; gap: var(--ds-space-3); }
+
+/* §7.6 donut: 180px, legend beside (gap 20) or below when narrow (gap 12) */
+.ds-donut { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-5); }
+.ds-donut__ring { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+.ds-donut__ring svg { position: absolute; inset: 0; }
+.ds-donut__seg { transition: stroke-dasharray var(--ds-duration-chart) var(--ds-ease-standard), filter var(--ds-duration-fast); cursor: pointer; }
+.ds-donut__seg.is-active, .ds-donut__seg:hover { filter: brightness(1.15); }
+.ds-donut__center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ds-donut__legend { flex: 1 1 240px; display: flex; flex-direction: column; gap: var(--ds-space-2); min-width: 0; }
+.ds-donut__row { width: 100%; display: flex; justify-content: space-between; gap: var(--ds-space-6); padding: var(--ds-space-0-5) 0; border-radius: var(--ds-radius-xs);
+  font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ds-color-text-muted); text-align: start; }
+.ds-donut__row > span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* §7.7 heatmap */
+.ds-heatmap-wrap { position: relative; overflow-x: auto; }
+.ds-heatmap { display: grid; min-width: 520px; }
+.ds-heatmap__row { display: contents; }
+.ds-heatmap__head { background: var(--ds-color-surface-table-header); padding: var(--ds-space-2) var(--ds-space-1); text-align: center; font-size: 14px; line-height: 24px;
+  font-weight: 600; letter-spacing: -0.4px; text-transform: uppercase; color: var(--ds-color-text-muted); }
+.ds-heatmap__head--first { text-align: start; padding-inline-start: 28px; }
+.ds-heatmap__label { display: flex; align-items: center; min-height: var(--ds-size-heat-row); padding-inline: 28px var(--ds-space-3); border-inline-end: 1px solid var(--ds-color-border-divider);
+  font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -0.4px; color: var(--ds-color-text-primary); }
+.ds-heatmap__cellwrap { display: flex; min-height: var(--ds-size-heat-row); }
+.ds-heat-cell { flex: 1; border: 0; padding: 0 var(--ds-space-1); font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -0.4px;
+  color: var(--ds-color-text-primary); cursor: pointer; font-variant-numeric: tabular-nums; transition: box-shadow var(--ds-duration-fast); }
+.ds-heat-cell--ink { color: var(--ds-color-text-on-bright); }
+.ds-heat-cell:hover, .ds-heat-cell.is-hover { box-shadow: inset 0 0 0 1px var(--ds-color-text-primary); }
+.ds-heat-cell:focus-visible, .ds-heat-cell.is-focus-visible { outline: var(--ds-focus-width) solid var(--ds-color-focus-ring-on-color); outline-offset: var(--ds-focus-offset-inset); }
+
+/* §7.8 bubble matrix */
+.ds-bubble { position: relative; padding: var(--ds-space-3) var(--ds-space-4) var(--ds-space-2); overflow-x: auto; }
+.ds-bubble__row { display: grid; align-items: center; min-width: 480px; }
+.ds-bubble__label { display: flex; flex-direction: column; min-width: 0; }
+.ds-bubble__label span:first-child { font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ds-color-text-chart-strong); }
+.ds-bubble__label span:last-child { font-size: 12px; line-height: 16px; color: var(--ds-color-text-chart-subtle); }
+.ds-bubble__cell { display: flex; align-items: center; justify-content: center; }
+.ds-bubble__dot { border: 0; padding: 0; border-radius: var(--ds-radius-full); cursor: pointer; transition: transform var(--ds-duration-fast) var(--ds-ease-standard); }
+.ds-bubble__dot:hover, .ds-bubble__dot.is-hover { transform: scale(1.1); }
+.ds-bubble__axis { height: auto; padding-top: var(--ds-space-2); }
+.ds-bubble__axis span { text-align: center; padding: 0 var(--ds-space-1); }
+
+/* §7.9 rich tooltip: dot, "×" and list title colors */
+.ds-chart-tip__dot { width: 11px; height: 11px; border-radius: var(--ds-radius-full); flex-shrink: 0; }
+.ds-tip-x, .ds-tip-sub { color: var(--ds-color-text-tooltip-muted); }
+.ds-chart-tip__item > :first-child { min-width: 0; color: var(--ds-color-text-tooltip); }
+.ds-chart-tip__item > :last-child { color: var(--ds-color-text-tooltip-muted); white-space: nowrap; }
+
+/* accessible data table toggle */
+.ds-chart-data { display: flex; flex-direction: column; align-items: flex-start; gap: var(--ds-space-3); }
+.ds-chart-data > div { width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-bar, .ds-hbar__bar, .ds-donut__seg, .ds-segbar__seg, .ds-progress > span { transition: none; }
+}
